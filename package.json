@@ -1,0 +1,21 @@
+{
+  "name": "express-rest-api-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha api/user/user.spec.js",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2"
+  }
+}
