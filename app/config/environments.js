@@ -2,7 +2,7 @@ const environments = {
     development: {
       mysql: {
         username: 'root',
-        password: 'Bae8921!',
+        password: 'root',
         database: 'node_api_codelab_dev'
       },
 
@@ -14,7 +14,7 @@ const environments = {
     test: {
       mysql: {
         username: 'root',
-        password: 'Bae8921!',
+        password: 'root',
         database: 'node_api_codelab_test'
       },
 
