@@ -314,38 +314,38 @@
   
   -   app/api/user/user.spec.js 내용 변경
   
-        const should = require('should');
-        const request = require('supertest');
-        const app = require('../../../app');
-        const models = require('../../models/models');
-        const syncDatabase = require('../../../bin/sync-databse');
+          const should = require('should');
+          const request = require('supertest');
+          const app = require('../../../app');
+          const models = require('../../models/models');
+          const syncDatabase = require('../../../bin/sync-databse');
 
-        describe('GET /users', () => {
+          describe('GET /users', () => {
 
-          before('sync database', (done) => {
-            syncDatabase().then(() => done());
-          });
-
-          //create(name:test)
-          it('POST /users', (done) => {
-            request(app)
-            .post('/users')
-            .send({
-              name: 'test'
-            })
-            .expect(201)
-            .end((err, res) => {
-              if(err){
-                throw err;
-              }
-              done();
+            before('sync database', (done) => {
+              syncDatabase().then(() => done());
             });
-          });
 
-          after('clear up database', (done) => {
-            syncDatabase().then(() => done());
-          });
-        })
+            //create(name:test)
+            it('POST /users', (done) => {
+              request(app)
+              .post('/users')
+              .send({
+                name: 'test'
+              })
+              .expect(201)
+              .end((err, res) => {
+                if(err){
+                  throw err;
+                }
+                done();
+              });
+            });
+
+            after('clear up database', (done) => {
+              syncDatabase().then(() => done());
+            });
+          })
         
   - 실행
   
@@ -363,8 +363,52 @@
         +----+-------+---------------------+---------------------+
         4 rows in set (0.00 sec)
 
-  14. 
+14. 삭제하기 - Delete
 
+  - app/api/user/user.spec.js 내용 변경
+  
+        const should = require('should');
+        const request = require('supertest');
+        const app = require('../../../app');
+        const models = require('../../models/models');
+        const syncDatabase = require('../../../bin/sync-databse');
 
+        describe('GET /users', () => {
+          before('sync database', (done) => {
+            syncDatabase().then(() => done());
+          });
+
+          //destroy
+          it('DELETE /:id', (done) => {
+            request(app)
+            .delete('/users/23')
+            .expect(204)
+            .end((err, res) => {
+              if(err){
+                throw err;
+              }
+              done();
+            });
+          });
+
+          after('clear up database', (done) => {
+            syncDatabase().then(() => done());
+          });
+        })
+  
+  - 실행
+  
+        # npm test
+  
+  - 결과
+  
+        +----+-------+---------------------+---------------------+
+        | id | name  | createdAt           | updatedAt           |
+        +----+-------+---------------------+---------------------+
+        | 24 | bek   | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+        | 25 | chris | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+        | 26 | test  | 2019-11-28 07:22:15 | 2019-11-28 07:22:15 |
+        +----+-------+---------------------+---------------------+
+        3 rows in set (0.00 sec)
 
 
