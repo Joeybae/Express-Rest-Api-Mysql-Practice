@@ -81,9 +81,9 @@
 
         # npm install sequelize --save
 
-6. Model 만들기
+6. Model 만들기 - 위에서 구축한 mysql db와 연동하기 위해서 model을 만든다.
 
-  - app/api/models/models.js 만들기
+  - app/models/models.js 만들기
   
         const Sequelize = require('sequelize');
         const config = require('../config/environments');
@@ -290,7 +290,17 @@
 
           module.exports = environments[nodeEnv];
 
+10. sync-database 모듈 만들기
 
+  - bin/sync-database.js
+  
+        const models = require('../app/models/models');
+        const config = require('../app/config/environments')
+
+        module.exports = () => {
+            console.log(models.sequelize.sync({force: config.force}));
+          return models.sequelize.sync({force: config.force});
+        };
 
 
 
