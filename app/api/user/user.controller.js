@@ -54,18 +54,5 @@ exports.destroy = (req, res) => {
 
 //update
 exports.update = (req, res) => {
-    describe('PUT /users/:id', () => {
-    it.only('should return 200 status code', (done) => {
-        request(app)
-            .put('/users/1')
-            .send({
-            name: 'foo'
-            })
-            .end((err, res) => {
-            if (err) throw err;
-            done();
-            });
-        });
-    });
     res.send();
 }
