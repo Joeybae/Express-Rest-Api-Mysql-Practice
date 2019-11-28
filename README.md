@@ -411,4 +411,43 @@
         +----+-------+---------------------+---------------------+
         3 rows in set (0.00 sec)
 
+15. 업데이트 - update
 
+  - app/api/user/user.spec.js 내용 변경
+
+        const request = require('supertest');
+        const app = require('../../../app');
+        const syncDatabase = require('../../../bin/sync-databse');
+
+        describe('PUT /users/:id', () => {
+          before('sync database', (done) => {
+            syncDatabase().then(() => done());
+          });
+
+          it.only('should return 200 status code', (done) => {
+            request(app)
+                .put('/users/2')
+                .send({
+                  name: 'foo'
+                })
+                .end((err, res) => {
+                  if (err) throw err;
+                  done();
+                });
+          });
+        });
+
+  - 실행
+  
+        # npm test
+  
+  - 결과
+  
+        +----+-------+---------------------+---------------------+
+        | id | name  | createdAt           | updatedAt           |
+        +----+-------+---------------------+---------------------+
+        | 2  | foo   | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+        | 3  | chris | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+        | 4  | test  | 2019-11-28 07:22:15 | 2019-11-28 07:22:15 |
+        +----+-------+---------------------+---------------------+
+        3 rows in set (0.00 sec)
