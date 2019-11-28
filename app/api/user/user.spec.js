@@ -69,7 +69,7 @@ describe('GET /users', () => {
 describe('PUT /users/:id', () => {
   it.only('should return 200 status code', (done) => {
     request(app)
-        .put('/users/26')
+        .put('/users/1')
         .send({
           name: 'foo'
         })
