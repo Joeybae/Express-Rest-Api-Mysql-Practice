@@ -71,26 +71,30 @@
 
   - database 만들기 (database 명 : node_api_codelab)
   
-        # CREATE DATABASE node_api_codelab;
+        # CREATE DATABASE node_api_codelab_test;
   
   - database 선택
   
-        # USE node_api_codelab;
+        # USE node_api_codelab_test;
   
 5. ORM(Object Relational Mapping) 모듈 설치
 
         # npm install sequelize --save
 
-6. User model 만들기
+6. Model 만들기
 
-  - model.js 만들기
+  - app/api/models/models.js 만들기
   
         const Sequelize = require('sequelize');
-        //Sequelize(database, id, pw) 순으로 입력
-        const sequelize = new Sequelize('node_api_codelab', 'root', 'root',{
-          host: 'localhost',
-          dialect: 'mysql'// pick one of 'mysql','sqlite','postgres','mssql',
-        });
+        const config = require('../config/environments');
+        const sequelize = new Sequelize(
+          config.mysql.database,
+          config.mysql.username,
+          config.mysql.password, {
+            host: 'localhost',
+            dialect: 'mysql'
+          }
+        );
 
         const User = sequelize.define('user', {
             name: Sequelize.STRING
@@ -101,70 +105,13 @@
           User: User
         }
         
-  - app.js 코드 변경
-  
-        const express = require('express');
-        const bodyParser = require('body-parser');
-        const app = express();
+7. CRUD 기능 만들기
 
-        app.use(bodyParser.json());
-        app.use(bodyParser.urlencoded({ extended: true }));
-        app.use('/users', require('./users'));
 
-        app.listen(3000, () => {
-          console.log('Example app listening on port 3000!');
 
-          // 실제 운영중에는 force:false로 변경
-          // force가 ture면 실행될 때 마다 테이블을 새로 생성하지만, false로 설정하면 중복 생성을 하지 않는다.
-          require('./models').sequelize.sync({force: false})
-            .then(() => {
-              console.log('Databases sync');
-            });
-        });
 
-        module.exports = app;
 
-  - 실행
-  
-        # npm start
-  
-  - 결과
-  
-        Example app listening on port 3000!
-        Executing (default): CREATE TABLE IF NOT EXISTS `users` (`id` INTEGER NOT NULL auto_increment , `name` VARCHAR(255), `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
-        Executing (default): SHOW INDEX FROM `users`
 
-  - Error: Please install mysql2 package manually 발생 시
-  
-        # npm install mysql2 --save
-        
-  - TABLE 확인
-  
-        # mysql -u root -h localhost -p
-        
-        # mysql> SHOW TABLES;
-        
-  - 결과
-  
-        +----------------------------+
-        | Tables_in_node_api_codelab |
-        +----------------------------+
-        | users                      |
-        +----------------------------+
-        1 row in set (0.00 sec)
 
-  - users 정보 확인
-  
-        # mysql> describe users;
-        
-  - 결과      
-        
-        +-----------+--------------+------+-----+---------+----------------+
-        | Field     | Type         | Null | Key | Default | Extra          |
-        +-----------+--------------+------+-----+---------+----------------+
-        | id        | int(11)      | NO   | PRI | NULL    | auto_increment |
-        | name      | varchar(255) | YES  |     | NULL    |                |
-        | createdAt | datetime     | NO   |     | NULL    |                |
-        | updatedAt | datetime     | NO   |     | NULL    |                |
-        +-----------+--------------+------+-----+---------+----------------+
-        4 rows in set (0.01 sec)
+
+
