@@ -295,10 +295,53 @@
   
         # "test": "NODE_ENV=test ./node_modules/.bin/mocha api/**/*.spec.js"
         
-  - 실행
+  - 실행 (user.spec.js의 코드가 실행된다.)
   
         # npm test
   
+  - 결과
   
-        
+  +----+-------+---------------------+---------------------+
+  | id | name  | createdAt           | updatedAt           |
+  +----+-------+---------------------+---------------------+
+  | 1  | alice | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+  | 2  | bek   | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+  | 3  | chris | 2019-11-28 07:19:59 | 2019-11-28 07:19:59 |
+  +----+-------+---------------------+---------------------+
+  3 rows in set (0.00 sec)
+
+  - 데이터 추가 (app/api/user/user.spec.js 내용 변경)
+  
+        const should = require('should');
+        const request = require('supertest');
+        const app = require('../../../app');
+        const models = require('../../models/models');
+        const syncDatabase = require('../../../bin/sync-databse');
+
+        describe('GET /users', () => {
+
+          before('sync database', (done) => {
+            syncDatabase().then(() => done());
+          });
+
+          //create(name:test)
+          it('POST /users', (done) => {
+            request(app)
+            .post('/users')
+            .send({
+              name: 'test'
+            })
+            .expect(201)
+            .end((err, res) => {
+              if(err){
+                throw err;
+              }
+              done();
+            });
+          });
+
+          after('clear up database', (done) => {
+            syncDatabase().then(() => done());
+          });
+        })
         
