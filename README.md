@@ -302,7 +302,21 @@
           return models.sequelize.sync({force: config.force});
         };
 
+11. 서버 구동 모듈 만들기
 
+  - bin/www.js
+  
+        const app = require('../app');
+        const port = 8000;
+        const syncDatabase = require('./sync-databse');
+
+        app.listen(port, () => {
+          console.log('Example app listening on port 3000');
+
+          syncDatabase().then(() => {
+            console.log('Database sync');
+          })
+        })
 
 
 
