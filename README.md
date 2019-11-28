@@ -216,41 +216,8 @@
                     }
                     done();
                 });
-          });
-
-          //destroy
-          it('DELETE /:id', (done) => {
-            request(app)
-            .delete('/users/2')
-            .expect(204)
-            .end((err, res) => {
-              if(err){
-                throw err;
-              }
-              done();
             });
-          });
-
-          //create
-          it('POST /users', (done) => {
-            request(app)
-            .post('/users')
-            .send({
-              name: 'test'
-            })
-            .expect(201)
-            .end((err, res) => {
-              if(err){
-                throw err;
-              }
-              done();
-            });
-          });
-
-          after('clear up database', (done) => {
-            syncDatabase().then(() => done());
-          });
-        })
+          })
 
 9. Test와 개발 환경 분리
 
@@ -318,5 +285,20 @@
           })
         })
 
+  - package.json 내용 변경
+  
+        # "start": "node bin/www"
 
+12. Test 실행
 
+  - package.json 내용 변경
+  
+        # "test": "NODE_ENV=test ./node_modules/.bin/mocha api/**/*.spec.js"
+        
+  - 실행
+  
+        # npm test
+  
+  
+        
+        
