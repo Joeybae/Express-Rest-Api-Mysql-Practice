@@ -31,7 +31,7 @@ describe('GET /users', () => {
         });
   });
 
-  //destroy
+  //delete
   it('DELETE /:id', (done) => {
     request(app)
     .delete('/users/2')
@@ -63,4 +63,19 @@ describe('GET /users', () => {
   after('clear up database', (done) => {
     syncDatabase().then(() => done());
   });
-})
+});
+
+//update
+describe('PUT /users/:id', () => {
+  it.only('should return 200 status code', (done) => {
+    request(app)
+        .put('/users/26')
+        .send({
+          name: 'foo'
+        })
+        .end((err, res) => {
+          if (err) throw err;
+          done();
+        });
+  });
+});
